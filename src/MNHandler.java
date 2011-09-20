@@ -5,22 +5,22 @@ import org.apache.mina.core.session.IoSession;
 
 public class MNHandler extends IoHandlerAdapter
 {
-	private String desc;
+	private String _desc;
 	
 	public MNHandler(String desc)
 	{
-		this.desc	= desc;
+		_desc	= desc;
 	}
 	
 	public String getDesc()
 	{
-		return desc;
+		return _desc;
 	}
 	
 	@Override
 	public void sessionOpened(IoSession session)
 	{
-		Set<IoSession>	sessions	= MinaNet._sessions.get(desc);
+		Set<IoSession>	sessions	= MinaNet._sessions.get(_desc);
 		if (sessions != null)
 		{
 			sessions.add(session);
@@ -30,7 +30,7 @@ public class MNHandler extends IoHandlerAdapter
 	@Override
 	public void sessionClosed(IoSession session)
 	{
-		Set<IoSession>	sessions	= MinaNet._sessions.get(desc);
+		Set<IoSession>	sessions	= MinaNet._sessions.get(_desc);
 		if (sessions != null)
 		{
 			sessions.remove(session);

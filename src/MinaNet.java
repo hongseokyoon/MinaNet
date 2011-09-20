@@ -8,7 +8,9 @@ import java.util.Set;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 public class MinaNet 
 {
@@ -18,6 +20,8 @@ public class MinaNet
 	public void listen(String desc, int port, MNHandler handler) throws IOException
 	{
 		IoAcceptor	acceptor	= new NioSocketAcceptor();
+		
+		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MNBinaryProtocolCodecFactory()));
 		
 		acceptor.setHandler(handler);
         acceptor.getSessionConfig().setReadBufferSize(2048);
@@ -29,8 +33,9 @@ public class MinaNet
 	
 	public void connect(String desc, String host, int port, MNHandler handler)
 	{
+		NioSocketConnector	connector	= new NioSocketConnector();
 		
+		connector.setConnectTimeoutMillis(10000);
+		connector.setHandler(handler);
 	}
 }
-
-//Map<Strng, IoSession>	MinaNet::_sessions	= new Map<String, IoSession>();

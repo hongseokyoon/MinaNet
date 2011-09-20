@@ -54,6 +54,10 @@ public class MNBinaryProtocol implements MNProtocol
 		int	position	= _buffer.position();
 		_buffer.position(3).putInt(position);
 		_buffer.position(position);
-		return _buffer.array();
+
+		byte[]	ret	= new byte[position];
+		System.arraycopy(_buffer.array(), 0, ret, 0, position);
+		
+		return ret;
 	}
 }
