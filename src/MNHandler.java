@@ -1,4 +1,4 @@
-import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -20,17 +20,23 @@ public class MNHandler extends IoHandlerAdapter
 	@Override
 	public void sessionOpened(IoSession session)
 	{
-		Set<IoSession>	sessions	= MinaNet._sessions.get(_desc);
+		TreeSet<IoSession>	sessions	= MinaNet._sessions.get(_desc);
 		if (sessions != null)
 		{
 			sessions.add(session);
+		}
+		else
+		{
+			sessions	= new TreeSet<IoSession>();
+			sessions.add(session);
+			MinaNet._sessions.put(_desc, sessions);
 		}
 	}
 	
 	@Override
 	public void sessionClosed(IoSession session)
 	{
-		Set<IoSession>	sessions	= MinaNet._sessions.get(_desc);
+		TreeSet<IoSession>	sessions	= MinaNet._sessions.get(_desc);
 		if (sessions != null)
 		{
 			sessions.remove(session);

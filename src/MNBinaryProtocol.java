@@ -7,7 +7,7 @@ public class MNBinaryProtocol implements MNProtocol
 {
 	public IoBuffer	_buffer	= null;
 	
-	public MNBinaryProtocol() throws CharacterCodingException
+	public MNBinaryProtocol()// throws CharacterCodingException
 	{
 		_buffer	= IoBuffer.allocate(2048);
 		addString("MN");
@@ -29,9 +29,16 @@ public class MNBinaryProtocol implements MNProtocol
 		_buffer.putFloat(val);
 	}
 	
-	public void addString(String val) throws CharacterCodingException
+	public void addString(String val)// throws CharacterCodingException
 	{
-		_buffer.putString(val + '\0', Charset.forName("ASCII").newEncoder());
+		try
+		{
+			_buffer.putString(val + '\0', Charset.forName("ASCII").newEncoder());
+		}
+		catch (CharacterCodingException e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public int getInt()
@@ -44,9 +51,20 @@ public class MNBinaryProtocol implements MNProtocol
 		return _buffer.getFloat();
 	}
 	
-	public String getString() throws CharacterCodingException
+	public String getString()// throws CharacterCodingException
 	{
-		return _buffer.getString(Charset.forName("ASCII").newDecoder());
+		String	ret	= null;
+		
+		try
+		{
+			ret	= _buffer.getString(Charset.forName("ASCII").newDecoder());
+		}
+		catch (CharacterCodingException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		
+		return ret;
 	}
 	
 	public byte[] getBytes()

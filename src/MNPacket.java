@@ -24,7 +24,7 @@ public class MNPacket
 		_protocol.addFloat(val);
 	}
 	
-	public void addString(String val) throws CharacterCodingException
+	public void addString(String val)// throws CharacterCodingException
 	{
 		_protocol.addString(val);
 	}
@@ -39,15 +39,14 @@ public class MNPacket
 		return _protocol.getFloat();
 	}
 	
-	public String getString() throws CharacterCodingException
+	public String getString()// throws CharacterCodingException
 	{
 		return _protocol.getString();
 	}
 	
-	public boolean send(IoSession session)
+	public void send(IoSession session)
 	{
-		
-		return false;
+		session.write(getBytes());
 	}
 	
 	public byte[] getBytes()

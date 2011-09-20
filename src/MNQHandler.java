@@ -11,6 +11,18 @@ public class MNQHandler extends MNHandler
 		super(desc);
 	}
 	
+	@Override 
+	public void sessionOpened(IoSession session)
+	{
+		super.sessionOpened(session);
+	}
+	
+	@Override 
+	public void sessionClosed(IoSession session)
+	{
+		super.sessionClosed(session);
+	}
+	
 	@Override
 	public void messageReceived(IoSession session, Object message)
 	{
