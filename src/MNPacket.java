@@ -1,13 +1,8 @@
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.core.buffer.IoBuffer;
 
 public class MNPacket
 {
 	private MNProtocol	_protocol	= null;
-	private IoBuffer	_buffer		= IoBuffer.allocate(2048);
 	
 	public MNPacket(MNProtocol protocol)
 	{
@@ -46,7 +41,7 @@ public class MNPacket
 	
 	public void send(IoSession session)
 	{
-		session.write(getBytes());
+		session.write(this);
 	}
 	
 	public byte[] getBytes()

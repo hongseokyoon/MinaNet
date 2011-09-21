@@ -1,5 +1,3 @@
-import java.nio.charset.CharacterCodingException;
-
 public interface MNProtocol
 {
 	public void 	addInt(int val);

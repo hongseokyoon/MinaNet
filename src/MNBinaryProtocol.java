@@ -70,7 +70,7 @@ public class MNBinaryProtocol implements MNProtocol
 	public byte[] getBytes()
 	{
 		int	position	= _buffer.position();
-		_buffer.position(3).putInt(position);
+		_buffer.position(3).putInt(position - 7);
 		_buffer.position(position);
 
 		byte[]	ret	= new byte[position];

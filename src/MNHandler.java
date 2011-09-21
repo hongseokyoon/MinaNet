@@ -12,34 +12,40 @@ public class MNHandler extends IoHandlerAdapter
 		_desc	= desc;
 	}
 	
-	public String getDesc()
-	{
-		return _desc;
-	}
+	@Override
+    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
+    {
+		System.out.println("exceptionCaught");
+        cause.printStackTrace();
+    }
 	
 	@Override
 	public void sessionOpened(IoSession session)
 	{
-		TreeSet<IoSession>	sessions	= MinaNet._sessions.get(_desc);
+		TreeSet<Integer>	sessions	= MinaNet._sessions.get(_desc);
 		if (sessions != null)
 		{
-			sessions.add(session);
+			sessions.add(session.hashCode());
 		}
 		else
 		{
-			sessions	= new TreeSet<IoSession>();
-			sessions.add(session);
+			sessions	= new TreeSet<Integer>();
+			sessions.add(session.hashCode());
 			MinaNet._sessions.put(_desc, sessions);
 		}
+		
+		System.out.println(String.format("add session %d", session.hashCode()));
 	}
 	
 	@Override
 	public void sessionClosed(IoSession session)
 	{
-		TreeSet<IoSession>	sessions	= MinaNet._sessions.get(_desc);
+		TreeSet<Integer>	sessions	= MinaNet._sessions.get(_desc);
 		if (sessions != null)
 		{
-			sessions.remove(session);
+			sessions.remove(session.hashCode());
+
+			System.out.println(String.format("remove session %d", session.hashCode()));
 		}
 	}
 }
