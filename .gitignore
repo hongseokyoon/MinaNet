@@ -1,1 +1,3 @@
-bin/
+MinaNet/bin/
+MNServer/bin/
+MNClient/bin/
