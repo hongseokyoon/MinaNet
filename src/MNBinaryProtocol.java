@@ -19,6 +19,11 @@ public class MNBinaryProtocol implements MNProtocol
 		_buffer	= IoBuffer.wrap(buffer);
 	}
 	
+	public MNBinaryProtocol(IoBuffer buffer)
+	{
+		_buffer	= IoBuffer.wrap(buffer.array(), 7, buffer.remaining());
+	}
+	
 	public void addInt(int val)
 	{
 		_buffer.putInt(val);
@@ -77,5 +82,15 @@ public class MNBinaryProtocol implements MNProtocol
 		System.arraycopy(_buffer.array(), 0, ret, 0, position);
 		
 		return ret;
+	}
+	
+	public IoBuffer getBuffer()
+	{
+
+		int	position	= _buffer.position();
+		_buffer.position(3).putInt(position - 7);
+		_buffer.position(position);
+		
+		return _buffer;
 	}
 }

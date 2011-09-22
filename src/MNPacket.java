@@ -1,3 +1,4 @@
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 
 public class MNPacket
@@ -47,5 +48,10 @@ public class MNPacket
 	public byte[] getBytes()
 	{
 		return _protocol.getBytes();
+	}
+	
+	public IoBuffer getBuffer()
+	{
+		return _protocol.getBuffer();
 	}
 }

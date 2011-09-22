@@ -15,7 +15,7 @@ public class MNHandler extends IoHandlerAdapter
 	@Override
     public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
     {
-		System.out.println("exceptionCaught");
+		System.out.println("exceptionCaught: " + cause.getMessage());
         cause.printStackTrace();
     }
 	

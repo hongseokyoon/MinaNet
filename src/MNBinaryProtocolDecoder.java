@@ -23,10 +23,7 @@ public class MNBinaryProtocolDecoder extends CumulativeProtocolDecoder
 			return false;
 		}
 		
-		byte[]	data	= new byte[size];
-		System.arraycopy(in.array(), 0, data, 0, size);
-		
-		out.write(new MNPacket(new MNBinaryProtocol(data)));
+		out.write(new MNPacket(new MNBinaryProtocol(in)));
 		
 		return true;
 	}

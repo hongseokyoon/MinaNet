@@ -1,3 +1,5 @@
+import org.apache.mina.core.buffer.IoBuffer;
+
 public interface MNProtocol
 {
 	public void 	addInt(int val);
@@ -9,4 +11,5 @@ public interface MNProtocol
 	public String 	getString();// throws CharacterCodingException;
 	
 	public byte[] 	getBytes();
+	public IoBuffer	getBuffer();
 }
