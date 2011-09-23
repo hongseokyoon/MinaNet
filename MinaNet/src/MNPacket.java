@@ -45,6 +45,14 @@ public class MNPacket
 		session.write(this);
 	}
 	
+	public void send(IoSession[] sessions)
+	{
+		for (IoSession session : sessions)
+		{
+			session.write(this);
+		}
+	}
+	
 	public byte[] getBytes()
 	{
 		return _protocol.getBytes();
