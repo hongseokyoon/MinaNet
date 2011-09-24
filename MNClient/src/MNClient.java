@@ -11,9 +11,11 @@ public class MNClient
 		{
 			Thread.sleep(3000);
 			MNQMessage	msg	= MNQHandler.popMessage();
-			//while (MNQHandler.popMessage())
+			
+			while (msg != null)
 			{
-				
+				System.out.println("popMessage: " + ((MNPacket)msg.getMessage()).getString());
+				msg	= MNQHandler.popMessage();
 			}
 		}
 	}

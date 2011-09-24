@@ -1,6 +1,5 @@
 import org.apache.mina.core.session.IoSession;
 
-
 public class ServerHandler extends MNHandler 
 {
 	public ServerHandler(String desc)
@@ -26,12 +25,11 @@ public class ServerHandler extends MNHandler
 	public void messageReceived(IoSession session, Object message)
 	{
 		MNPacket	packet	= (MNPacket)message;
-		System.out.print("message from client: ");
 		String	msg	= packet.getString();
-		System.out.println(msg);
+		System.out.println("message from client: " + msg);
 		
 		MNPacket	echoResponse	= new MNPacket(new MNBinaryProtocol());
 		echoResponse.addString(msg);
-		echoResponse.send(session);
+		echoResponse.send(MinaNet.getSessions(this._desc));	// broadcast message
 	}
 }

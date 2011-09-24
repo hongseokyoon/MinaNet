@@ -19,4 +19,11 @@ public class ClientHandler extends MNQHandler
 		packet.send(session);
 		System.out.println("after send");
 	}
+	
+	@Override
+	public void messageReceived(IoSession session, Object message)
+	{
+		super.messageReceived(session, message);
+		System.out.println("messageReceived QueneSize: " + MNQHandler.remainedMessageCount());
+	}
 }

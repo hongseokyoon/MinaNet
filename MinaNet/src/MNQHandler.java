@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.SynchronousQueue;
 
@@ -5,55 +6,35 @@ import org.apache.mina.core.session.IoSession;
 
 public class MNQHandler extends MNHandler 
 {
-	static private SynchronousQueue<MNQMessage>	_queue	= new SynchronousQueue<MNQMessage>();
+	static private Queue<MNQMessage>	_queue	= new LinkedList<MNQMessage>();
 	
 	public MNQHandler(String desc)
 	{
 		super(desc);
 	}
 	
-	@Override 
-	public void sessionOpened(IoSession session)
-	{
-		super.sessionOpened(session);
-	}
-	
-	@Override 
-	public void sessionClosed(IoSession session)
-	{
-		super.sessionClosed(session);
-	}
-	
 	@Override
 	public void messageReceived(IoSession session, Object message)
 	{
-		try
+		synchronized(_queue)
 		{
-			// CS
-			_queue.put(new MNQMessage(session, message));
-		}
-		catch (InterruptedException e)
-		{
-		
+			_queue.add(new MNQMessage(session, message));
 		}
 	}
 	
 	static public MNQMessage popMessage()
 	{
-		try
+		MNQMessage	ret	= null;
+		synchronized(_queue)
 		{
-		// CS
-			return _queue.take();
+			ret	= _queue.poll();
 		}
-		catch (InterruptedException e)
-		{
-			return null;
-		}
+		
+		return ret;
 	}
 	
 	static public int remainedMessageCount()
 	{
-		// CS
 		return _queue.size();
 	}
 }
