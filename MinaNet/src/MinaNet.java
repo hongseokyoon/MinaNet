@@ -3,7 +3,6 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.TreeSet;
 //import java.net.InetSocketAddress;
 
 import org.apache.mina.core.future.ConnectFuture;
@@ -25,7 +24,7 @@ public class MinaNet
 	{
 		IoAcceptor	acceptor	= new NioSocketAcceptor();
 		
-		//acceptor.getFilterChain().addLast( "logger", new LoggingFilter() );
+		acceptor.getFilterChain().addLast( "logger", new LoggingFilter() );
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MNBinaryProtocolCodecFactory()));
 		
 		acceptor.setHandler(handler);
@@ -36,7 +35,7 @@ public class MinaNet
         _listeners.add(acceptor);
 	}
 	
-	public void connect(String host, int port, MNHandler handler)
+	public IoSession connect(String host, int port, MNHandler handler)
 	{
 		IoConnector	connector	= new NioSocketConnector();
 		
@@ -53,7 +52,10 @@ public class MinaNet
 		catch (InterruptedException e)
 		{
 			System.err.println(e.getMessage());
+			return null;
 		}
+		
+		return cf.getSession();
 	}
 	
 	static public boolean addSession(String desc, IoSession session)
@@ -90,7 +92,7 @@ public class MinaNet
 		synchronized(_sessions)
 		{
 			Map<Integer, IoSession>	sessions	= _sessions.get(desc);
-			return (IoSession[])sessions.values().toArray();
+			return (IoSession[])sessions.values().toArray(new IoSession[0]);
 		}
 	}
 }

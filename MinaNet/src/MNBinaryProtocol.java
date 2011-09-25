@@ -33,7 +33,7 @@ public class MNBinaryProtocol implements MNProtocol
 	{
 		_buffer.putFloat(val);
 	}
-	
+
 	public void addString(String val)// throws CharacterCodingException
 	{
 		try

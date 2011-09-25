@@ -9,6 +9,9 @@ public class MNBinaryProtocolDecoder extends CumulativeProtocolDecoder
 {
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception
 	{
+		int	originalPos	= in.position();
+		
+		//System.out.println(String.format("doDecode limit:%d remain:%d pos:%d hex:%s", in.limit(), in.remaining(), in.position(), in.getHexDump()));
 		if (in.remaining() < 7)
 		{
 			return false;
@@ -17,13 +20,18 @@ public class MNBinaryProtocolDecoder extends CumulativeProtocolDecoder
 		String	prefix	= in.getString(Charset.forName("ASCII").newDecoder());
 		int		size	= in.getInt();
 		
+		// do check prefix here for validation
+		
 		if (in.remaining() < size)
 		{
-			in.reset();
+			in.position(originalPos);
 			return false;
 		}
 		
-		out.write(new MNPacket(new MNBinaryProtocol(in)));
+		out.write(new MNPacket(new MNBinaryProtocol(IoBuffer.wrap(in.array(), 0, size))));
+		in.position(7 + size);
+
+		//System.out.println(String.format("doDecode limit:%d remain:%d pos:%d hex:%s", in.limit(), in.remaining(), in.position(), in.getHexDump()));
 		
 		return true;
 	}

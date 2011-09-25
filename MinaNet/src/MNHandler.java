@@ -13,8 +13,8 @@ public class MNHandler extends IoHandlerAdapter
 	@Override
     public void exceptionCaught( IoSession session, Throwable cause )
     {
-		System.out.println("exceptionCaught: " + cause.getMessage());
-        //cause.printStackTrace();
+		//System.out.println("exceptionCaught: " + cause.getMessage());
+        cause.printStackTrace();
 		session.close(true);
     }
 	
@@ -22,13 +22,13 @@ public class MNHandler extends IoHandlerAdapter
 	public void sessionOpened(IoSession session)
 	{
 		MinaNet.addSession(_desc, session);		
-		System.out.println(String.format("add session %d", session.hashCode()));
+		//System.out.println(String.format("add session %d", session.hashCode()));
 	}
 	
 	@Override
 	public void sessionClosed(IoSession session)
 	{
 		MinaNet.delSession(_desc, session);
-		System.out.println(String.format("remove session %d", session.hashCode()));
+		//System.out.println(String.format("remove session %d", session.hashCode()));
 	}
 }

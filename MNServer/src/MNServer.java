@@ -8,7 +8,7 @@ public class MNServer
 		MinaNet	mn	= new MinaNet();
 		try
 		{
-			mn.listen(9123, new ServerHandler("client"));
+			mn.listen(9123, new ClientHandler("client"));
 		}
 		catch (Exception e)
 		{

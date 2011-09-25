@@ -1,3 +1,5 @@
+import org.apache.mina.core.session.IoSession;
+
 
 public class MNClient 
 {
@@ -5,18 +7,21 @@ public class MNClient
 	{
 		MinaNet	mn	= new MinaNet();
 		
-		mn.connect("127.0.0.1", 9123, new ClientHandler("client"));
+		IoSession	serverSession	= mn.connect("127.0.0.1", 9123, new MNQHandler("server"));
 		
-		while (true)
+		InputThread	t	= new InputThread();
+		t.start();
+		
+		while (true)	// client loop
 		{
-			Thread.sleep(3000);
-			MNQMessage	msg	= MNQHandler.popMessage();
+			Thread.sleep(1000);	// do some client job here...
 			
-			while (msg != null)
-			{
-				System.out.println("popMessage: " + ((MNPacket)msg.getMessage()).getString());
-				msg	= MNQHandler.popMessage();
-			}
+			ServerHandler.process();
+			InputThread.process(serverSession);
 		}
 	}
+	
+	
+	
+	
 }

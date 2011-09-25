@@ -50,6 +50,19 @@ public class MNPacket
 		for (IoSession session : sessions)
 		{
 			session.write(this);
+			//System.out.println(String.format("send: %d", session.hashCode()));
+		}
+	}
+	
+	public void sendExclude(IoSession[] sessions, IoSession excludedSession)
+	{
+		for (IoSession session : sessions)
+		{
+			if (session != excludedSession)
+			{
+				session.write(this);
+				//System.out.println(String.format("send: %d", session.hashCode()));
+			}
 		}
 	}
 	
